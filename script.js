@@ -1,6 +1,21 @@
 const TYPE_USER = "user";
 const TYPE_SYSTEM = "system";
 
+function Message(textBody){ 
+    this.textBody = textBody;
+    this.render= () => console.log("> "+this.textBody);
+}
+function SystemMessage(textBody){ 
+    Message.call(this, textBody);
+
+    this.type = TYPE_SYSTEM;
+}
+function UserMessage(textBody, sender){ 
+    Message.call(this, textBody);
+    this.sender= sender;
+    this.type = TYPE_USER;
+}
+
 
 let createMessage = (sender, text, type) => ({
   textBody: text,
@@ -23,23 +38,22 @@ let render = function () {
 };
 
 let messages = [
-  createMessage("sender1", "I like pasta", TYPE_USER),
-  createMessage("sys","sth went wrong", TYPE_SYSTEM),
-  createMessage("sender2", "Nice weather", TYPE_SYSTEM),
-  createMessage("sender3", "Cool", TYPE_USER),
-  createMessage("sender3", "Das ist eine längere Nachricht", TYPE_USER),
+  new UserMessage("I like pasta","sender1"),
+  new UserMessage("Cool","sender2"),
+  new UserMessage("Nice weather","sender2"),
+  new SystemMessage("sth went wrong")
 ];
 
-// for (const message of messages) {
-//     sendMessage(message);
-// }
+ for (const message of messages) {
+     sendMessage(message);
+ }
 // console.log("forEach...")
 // messages.forEach(message => {
 //     sendMessage(message);
 // });
 
 
-
+/*
 let chatMembers= new Set(
                 messages.filter(m=>m.type===TYPE_USER)
                 .map(m=>m.sender)
@@ -52,3 +66,4 @@ chatMembers.map(member=>(
 let countWords= function(member){
     // return messages.filter(m=>m.sender===)
 }
+*/
