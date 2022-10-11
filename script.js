@@ -12,23 +12,15 @@ Remove the sendMessage() calls and use the browser debugging tools instead to ca
 const TYPE_USER = "user";
 const TYPE_SYSTEM = "system";
 
-let m1 = {
-    textBody:"Eine message 1",
-    sender:"sender1",
-    type: TYPE_USER
-}
-let m2 = {
-    textBody:"Eine message 2",
-    sender:"sender2",
-    type: TYPE_USER
-}
-let m3 = {
-    textBody:"Eine message 3",
-    sender:"sender3",
-    type: TYPE_SYSTEM
-}
-
 console.log("Hooray, my first line of JavaScript!");
+
+let createMessage = (sender, text, type) =>{
+    return {
+        textBody: text,
+        sender,
+        type
+    };
+}
 
 let sendMessage = function(m, renderFunction=render) {
     m.render = renderFunction;
@@ -36,22 +28,7 @@ let sendMessage = function(m, renderFunction=render) {
 
     console.log(m.render());
 }
-/**
- * 
-Optional: Instead of declaring the message object manually, 
-write a function createMessage(sender, text, type) 
-that returns corresponding message objects. 
-Use an arrow function for the function definition. Use this function when declaring m1, m2, m3, ....
 
- */
-let createMessage = (sender, text, type) =>{
-    return {
-        textBody:"Eine message 3",
-        sender:"sender3",
-        type: TYPE_SYSTEM
-    };
-
-}
 
 let render = function(){
 
@@ -62,6 +39,10 @@ let render = function(){
     }
 
 }
+
+let m1 = createMessage("sender1", "message1", TYPE_USER);
+let m2 = createMessage("sender2", "message2", TYPE_SYSTEM);
+let m3 = createMessage("sender3", "message3", TYPE_USER);
 
 sendMessage(m1);
 sendMessage(m2);
