@@ -3,7 +3,7 @@ const TYPE_SYSTEM = "system";
 
 function Message(textBody){ 
     this.textBody = textBody;
-    this.render= () => console.log("> "+this.textBody);
+    this.render = ()=>this.textBody;
 }
 function SystemMessage(textBody){ 
     Message.call(this, textBody);
@@ -25,8 +25,9 @@ let createMessage = (sender, text, type) => ({
 });
 
 let sendMessage = function (m) {
- // console.log(m);
+  console.log(m);
   console.log(m.render());
+
 };
 
 let render = function () {
@@ -48,9 +49,7 @@ let messages = [
      sendMessage(message);
  }
 
- for (const message of messages) {
-    message.render();
-}
+
 
 // console.log("forEach...")
 // messages.forEach(message => {
