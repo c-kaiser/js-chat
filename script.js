@@ -14,18 +14,17 @@ const TYPE_SYSTEM = "system";
 
 console.log("Hooray, my first line of JavaScript!");
 
-let createMessage = (sender, text, type) =>{
-    return {
+let createMessage = (sender, text, type) =>(
+   {
         textBody: text,
         sender,
-        type
-    };
-}
+        type,
+        render: render
+    });
 
-let sendMessage = function(m, renderFunction=render) {
-    m.render = renderFunction;
+
+let sendMessage = function(m) {
     console.log(m);
-
     console.log(m.render());
 }
 
