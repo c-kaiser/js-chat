@@ -63,12 +63,6 @@ let render = function(){
 
 }
 
-<<<<<<< HEAD
-// sendMessage(m1);
-// sendMessage(m2);
-// sendMessage(m3);
-=======
 sendMessage(m1);
 sendMessage(m2);
 sendMessage(m3);
->>>>>>> 13844d8d0c00ef072adf3c4f77aa45a61a9d2296
