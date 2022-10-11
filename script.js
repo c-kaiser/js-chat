@@ -30,14 +30,37 @@ let m3 = {
 
 console.log("Hooray, my first line of JavaScript!");
 
-let sendMessage = function(m) {
-    let formattedMessage;
-    if (m.type === TYPE_SYSTEM) {
-        formattedMessage = "..." +m.textBody + "...";
+let sendMessage = function(m, renderFunction=render) {
+    m.render = renderFunction;
+    console.log(m);
+
+    console.log(m.render());
+}
+/**
+ * 
+Optional: Instead of declaring the message object manually, 
+write a function createMessage(sender, text, type) 
+that returns corresponding message objects. 
+Use an arrow function for the function definition. Use this function when declaring m1, m2, m3, ....
+
+ */
+let createMessage = (sender, text, type) =>{
+    return {
+        textBody:"Eine message 3",
+        sender:"sender3",
+        type: TYPE_SYSTEM
+    };
+
+}
+
+let render = function(){
+
+    if (this.type === TYPE_SYSTEM) {
+        return "..." +this.textBody + "...";
     } else {
-        formattedMessage = `${m.sender}: ${m.textBody}`
+        return `${this.sender}: ${this.textBody}`
     }
-    console.log(formattedMessage);
+
 }
 
 sendMessage(m1);
