@@ -23,15 +23,32 @@ let render = function () {
 };
 
 let messages = [
-  createMessage("sender1", "message1", TYPE_USER),
-  createMessage("sender2", "message2", TYPE_SYSTEM),
-  createMessage("sender3", "message3", TYPE_USER),
+  createMessage("sender1", "I like pasta", TYPE_USER),
+  createMessage("sys","sth went wrong", TYPE_SYSTEM),
+  createMessage("sender2", "Nice weather", TYPE_SYSTEM),
+  createMessage("sender3", "Cool", TYPE_USER),
+  createMessage("sender3", "Das ist eine längere Nachricht", TYPE_USER),
 ];
 
-for (const message of messages) {
-    sendMessage(message);
+// for (const message of messages) {
+//     sendMessage(message);
+// }
+// console.log("forEach...")
+// messages.forEach(message => {
+//     sendMessage(message);
+// });
+
+
+
+let chatMembers= new Set(
+                messages.filter(m=>m.type===TYPE_USER)
+                .map(m=>m.sender)
+                );
+console.log(chatMembers);
+
+chatMembers.map(member=>(
+    `${member}, ${countWords(member)}`
+))
+let countWords= function(member){
+    // return messages.filter(m=>m.sender===)
 }
-console.log("forEach...")
-messages.forEach(message => {
-    sendMessage(message);
-});
