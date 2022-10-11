@@ -13,23 +13,33 @@ const TYPE_USER = "user";
 const TYPE_SYSTEM = "system";
 
 let m1 = {
-    textBody:"Eine message",
+    textBody:"Eine message 1",
     sender:"sender1",
     type: TYPE_USER
 }
 let m2 = {
-    textBody:"Eine message",
+    textBody:"Eine message 2",
     sender:"sender2",
-    type: TYPE_SYSTEM
+    type: TYPE_USER
 }
 let m3 = {
-    textBody:"Eine message",
+    textBody:"Eine message 3",
     sender:"sender3",
     type: TYPE_SYSTEM
 }
 
-
-
-
-
 console.log("Hooray, my first line of JavaScript!");
+
+let sendMessage = function(m) {
+    let formattedMessage;
+    if (m.type === TYPE_SYSTEM) {
+        formattedMessage = "..." +m.textBody + "...";
+    } else {
+        formattedMessage = `${m.sender}: ${m.textBody}`
+    }
+    console.log(formattedMessage);
+}
+
+sendMessage(m1);
+sendMessage(m2);
+sendMessage(m3);
