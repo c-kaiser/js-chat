@@ -25,7 +25,7 @@ let createMessage = (sender, text, type) => ({
 });
 
 let sendMessage = function (m) {
-  console.log(m);
+ // console.log(m);
   console.log(m.render());
 };
 
@@ -47,6 +47,11 @@ let messages = [
  for (const message of messages) {
      sendMessage(message);
  }
+
+ for (const message of messages) {
+    message.render();
+}
+
 // console.log("forEach...")
 // messages.forEach(message => {
 //     sendMessage(message);
