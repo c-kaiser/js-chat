@@ -40,6 +40,6 @@ let sendMessage = function(m) {
     console.log(formattedMessage);
 }
 
-sendMessage(m1);
-sendMessage(m2);
-sendMessage(m3);
+// sendMessage(m1);
+// sendMessage(m2);
+// sendMessage(m3);
