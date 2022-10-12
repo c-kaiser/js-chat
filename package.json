@@ -1,0 +1,26 @@
+{
+  "name": "js-chat",
+  "version": "1.0.0",
+  "description": "Example of a simple web application using only javascript and html explaining several javascript concepts.",
+  "main": "server/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "echo \"Keine Tests\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c-kaiser/js-chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/c-kaiser/js-chat/issues"
+  },
+  "homepage": "https://github.com/c-kaiser/js-chat#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
