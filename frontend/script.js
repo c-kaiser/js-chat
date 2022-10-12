@@ -115,12 +115,6 @@ window.addEventListener("load", () => {
     let messageInput = document.getElementById("message");
     let messageText = messageInput.value;
     let userMessage = new UserMessage(messageText, username);
-    let delay = (milliseconds) => {
-      return new Promise((resolve) => {
-        setTimeout(resolve, milliseconds);
-      });
-    };
-    await delay(1000);
     chat.sendMessage(userMessage);
 
     messageText.value = "";
