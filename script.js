@@ -3,11 +3,9 @@ const TYPE_SYSTEM = "system";
 
 function Message(textBody) {
   this.textBody = textBody;
-  this.render = () => this.textBody;
 }
 function SystemMessage(textBody) {
   Message.call(this, textBody);
-
   this.type = TYPE_SYSTEM;
 }
 function UserMessage(textBody, sender) {
@@ -16,24 +14,26 @@ function UserMessage(textBody, sender) {
   this.type = TYPE_USER;
 }
 
-let createMessage = (sender, text, type) => ({
-  textBody: text,
-  sender,
-  type,
-  render: render,
-});
+Message.prototype.render = function () {
+  return this.textBody;
+};
+
+UserMessage.prototype = Object.create(Message.prototype);
+UserMessage.prototype.constructor = UserMessage;
+
+SystemMessage.prototype = Object.create(Message.prototype);
+SystemMessage.prototype.constructor = SystemMessage;
+
+UserMessage.prototype.render = function () {
+  return `${this.sender}: ${this.textBody}`;
+};
+SystemMessage.prototype.render = function () {
+  return "..." + this.textBody + "...";
+};
 
 let sendMessage = function (m) {
   console.log(m);
   console.log(m.render());
-};
-
-let render = function () {
-  if (this.type === TYPE_SYSTEM) {
-    return "..." + this.textBody + "...";
-  } else {
-    return `${this.sender}: ${this.textBody}`;
-  }
 };
 
 let messages = [
@@ -42,8 +42,6 @@ let messages = [
   new UserMessage("Nice weather or not?", "sender2"),
   new SystemMessage("sth went wrong"),
 ];
-
-
 
 let countWords = function (member) {
   return messages
@@ -56,16 +54,14 @@ let chatMembers = [
   ...new Set(messages.filter((m) => m.type === TYPE_USER).map((m) => m.sender)),
 ];
 
-
 const wordsByMember = chatMembers.reduce(
   (result, member) => ({ ...result, ...{ [member]: countWords(member) } }),
   {}
 );
 
-
 for (const message of messages) {
-    sendMessage(message);
-  }
+  sendMessage(message);
+}
 
 console.log("chatMembers: " + chatMembers);
 console.log("wordsByMember: " + JSON.stringify(wordsByMember));
