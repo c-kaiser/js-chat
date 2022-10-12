@@ -18,6 +18,12 @@ Message.prototype.render = function () {
   return this.textBody;
 };
 
+Message.prototype.renderHtml = function () {
+    let liElement = document.createElement("li");
+    liElement.textContent = this.textBody;
+    return liElement;     
+  };
+
 UserMessage.prototype = Object.create(Message.prototype);
 UserMessage.prototype.constructor = UserMessage;
 
@@ -63,14 +69,29 @@ class Chat {
     );
   }
   sendMessage(message) {
-    console.log(message);
-    console.log(message.render());
+   // console.log(message);
+   // console.log(message.render());
     this.messages.push(message);
+    let ol = document.getElementById("messages");
+    ol.appendChild(message.renderHtml());
+
   }
 }
-
 let chat = new Chat();
-// chat.sendMessage();
+
+let form = document.querySelector("form")
+
+form.addEventListener("submit",event => {
+    event.preventDefault();
+    let username = document.getElementById("username").value;
+    let messageText = document.getElementById("message").value;
+
+    let userMessage = new UserMessage(messageText,username);
+    chat.sendMessage(userMessage);
+})
+
+
+
 
 let initialMessages = [
   new UserMessage("Hello", "sender3"),
@@ -83,8 +104,8 @@ for (const message of initialMessages) {
   chat.sendMessage(message);
 }
 
-console.log(chat.members());
-console.log(chat.wordsByMember);
+//console.log(chat.members());
+//console.log(chat.wordsByMember);
 
 // console.log("chatMembers: " + chatMembers);
 // console.log("wordsByMember: " + JSON.stringify(wordsByMember));

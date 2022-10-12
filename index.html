@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Hooray!</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer ></script>
 </head>
 <body>
-    <b>Messages</b>
+    <b>Messages:</b>
     <ol id="messages"></ol>
+    <h2>Your Message</h2>
+    <form id="messageForm">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" maxlength="10" size="10"/>
+        <label for="message">Message:</label>
+        <input type="text" name="message" id="message" size="60"/>
+        <input type="submit"/>
+    </form>
 </body>
 </html>
