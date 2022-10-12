@@ -19,10 +19,10 @@ Message.prototype.render = function () {
 };
 
 Message.prototype.renderHtml = function () {
-    let liElement = document.createElement("li");
-    liElement.textContent = this.textBody;
-    return liElement;     
-  };
+  let liElement = document.createElement("li");
+  liElement.textContent = this.textBody;
+  return liElement;
+};
 
 UserMessage.prototype = Object.create(Message.prototype);
 UserMessage.prototype.constructor = UserMessage;
@@ -49,9 +49,7 @@ class Chat {
   get members() {
     return [
       ...new Set(
-        this.messages
-        .filter((m) => m.type === TYPE_USER)
-        .map((m) => m.sender)
+        this.messages.filter((m) => m.type === TYPE_USER).map((m) => m.sender)
       ),
     ];
   }
@@ -71,14 +69,14 @@ class Chat {
     );
   }
   sendMessage(message) {
-    const {sender} = message;
-        const isNewMember =
-            !(message instanceof SystemMessage) &&
-            (this.members.indexOf(sender) === -1);
+    const { sender } = message;
+    const isNewMember =
+      !(message instanceof SystemMessage) &&
+      this.members.indexOf(sender) === -1;
 
-        if (isNewMember) {
-            this.sendMessage(new SystemMessage(`${sender} has entered the chat`))
-        }
+    if (isNewMember) {
+      this.sendMessage(new SystemMessage(`${sender} has entered the chat`));
+    }
     this.messages.push(message);
     let ol = document.getElementById("messages");
     ol.appendChild(message.renderHtml());
@@ -87,16 +85,15 @@ class Chat {
   }
   renderMemberList() {
     const memberListElement = document.querySelector("#members");
-    const newChildren = this.members.map(member => {
-        const li = document.createElement("li");
-        li.textContent = member;
-        console.log(member);
-        return li;
+    const newChildren = this.members.map((member) => {
+      const li = document.createElement("li");
+      li.textContent = member;
+      console.log(member);
+      return li;
     });
     memberListElement.replaceChildren(...newChildren);
+  }
 }
-}
-
 
 window.addEventListener("load", () => {
   let initialMessages = [
@@ -105,28 +102,30 @@ window.addEventListener("load", () => {
     new UserMessage("It's cold outside", "sender3"),
     new SystemMessage("it works again"),
   ];
-let chat = new Chat();
-for (const message of initialMessages) {
-  chat.sendMessage(message);
-}
-let form = document.querySelector("form");
+  let chat = new Chat();
+  for (const message of initialMessages) {
+    chat.sendMessage(message);
+  }
+  let form = document.querySelector("form");
 
-form.addEventListener("submit",event => {
+  form.addEventListener("submit", async(event) => {
     event.preventDefault();
-    let usernameInput = document.getElementById("username")
-    let username= usernameInput.value;
-    let messageInput = document.getElementById("message")
-    let messageText= messageInput.value;
-    let userMessage = new UserMessage(messageText,username);
+    let usernameInput = document.getElementById("username");
+    let username = usernameInput.value;
+    let messageInput = document.getElementById("message");
+    let messageText = messageInput.value;
+    let userMessage = new UserMessage(messageText, username);
+    let delay = (milliseconds) => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, milliseconds);
+      });
+    };
+    await delay(1000);
     chat.sendMessage(userMessage);
+
     messageText.value = "";
+  });
 });
-});
-
-
-
-
-
 
 //console.log(chat.members());
 //console.log(chat.wordsByMember);
