@@ -43,9 +43,7 @@ let messages = [
   new SystemMessage("sth went wrong"),
 ];
 
-for (const message of messages) {
-  sendMessage(message);
-}
+
 
 let countWords = function (member) {
   return messages
@@ -58,11 +56,16 @@ let chatMembers = [
   ...new Set(messages.filter((m) => m.type === TYPE_USER).map((m) => m.sender)),
 ];
 
-console.log(chatMembers);
 
 const wordsByMember = chatMembers.reduce(
   (result, member) => ({ ...result, ...{ [member]: countWords(member) } }),
   {}
 );
 
-console.log(wordsByMember);
+
+for (const message of messages) {
+    sendMessage(message);
+  }
+
+console.log("chatMembers: "+ chatMembers);
+console.log("wordsByMember: "+wordsByMember);
