@@ -46,10 +46,12 @@ class Chat {
       new SystemMessage("sth went wrong"),
     ];
   }
-  members() {
+  get members() {
     return [
       ...new Set(
-        this.messages.filter((m) => m.type === TYPE_USER).map((m) => m.sender)
+        this.messages
+        .filter((m) => m.type === TYPE_USER)
+        .map((m) => m.sender)
       ),
     ];
   }
@@ -69,40 +71,62 @@ class Chat {
     );
   }
   sendMessage(message) {
-   // console.log(message);
-   // console.log(message.render());
+    const {sender} = message;
+        const isNewMember =
+            !(message instanceof SystemMessage) &&
+            (this.members.indexOf(sender) === -1);
+
+        if (isNewMember) {
+            this.sendMessage(new SystemMessage(`${sender} has entered the chat`))
+        }
     this.messages.push(message);
     let ol = document.getElementById("messages");
     ol.appendChild(message.renderHtml());
 
+    this.renderMemberList();
   }
+  renderMemberList() {
+    const memberListElement = document.querySelector("#members");
+    const newChildren = this.members.map(member => {
+        const li = document.createElement("li");
+        li.textContent = member;
+        console.log(member);
+        return li;
+    });
+    memberListElement.replaceChildren(...newChildren);
 }
+}
+
+
+window.addEventListener("load", () => {
+  let initialMessages = [
+    new UserMessage("Hello", "sender3"),
+    new UserMessage("Very nice", "sender4"),
+    new UserMessage("It's cold outside", "sender3"),
+    new SystemMessage("it works again"),
+  ];
 let chat = new Chat();
-
-let form = document.querySelector("form")
-
-form.addEventListener("submit",event => {
-    event.preventDefault();
-    let username = document.getElementById("username").value;
-    let messageText = document.getElementById("message").value;
-
-    let userMessage = new UserMessage(messageText,username);
-    chat.sendMessage(userMessage);
-})
-
-
-
-
-let initialMessages = [
-  new UserMessage("Hello", "sender3"),
-  new UserMessage("Very nice", "sender4"),
-  new UserMessage("It's cold outside", "sender3"),
-  new SystemMessage("it works again"),
-];
-
 for (const message of initialMessages) {
   chat.sendMessage(message);
 }
+let form = document.querySelector("form");
+
+form.addEventListener("submit",event => {
+    event.preventDefault();
+    let usernameInput = document.getElementById("username")
+    let username= usernameInput.value;
+    let messageInput = document.getElementById("message")
+    let messageText= messageInput.value;
+    let userMessage = new UserMessage(messageText,username);
+    chat.sendMessage(userMessage);
+    messageText.value = "";
+});
+});
+
+
+
+
+
 
 //console.log(chat.members());
 //console.log(chat.wordsByMember);
