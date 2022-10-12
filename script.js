@@ -67,5 +67,5 @@ for (const message of messages) {
     sendMessage(message);
   }
 
-console.log("chatMembers: "+ chatMembers);
-console.log("wordsByMember: "+wordsByMember);
+console.log("chatMembers: " + chatMembers);
+console.log("wordsByMember: " + JSON.stringify(wordsByMember));
