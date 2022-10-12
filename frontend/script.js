@@ -68,9 +68,9 @@ class Chat {
       {}
     );
   }
-  sendMessage(message) {
+  sendMessage = (message) =>{
     const { sender } = message;
-    const isNewMember =
+    const isNewMember = 
       !(message instanceof SystemMessage) &&
       this.members.indexOf(sender) === -1;
 
@@ -82,6 +82,16 @@ class Chat {
     ol.appendChild(message.renderHtml());
 
     this.renderMemberList();
+
+  fetch('http://localhost:3000/api/messages', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message)
+  });
+
   }
   renderMemberList() {
     const memberListElement = document.querySelector("#members");
