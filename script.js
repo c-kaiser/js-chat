@@ -31,37 +31,60 @@ SystemMessage.prototype.render = function () {
   return "..." + this.textBody + "...";
 };
 
-let sendMessage = function (m) {
-  console.log(m);
-  console.log(m.render());
-};
-
-let messages = [
-  new UserMessage("I like pasta", "sender1"),
-  new UserMessage("Cool", "sender2"),
-  new UserMessage("Nice weather or not?", "sender2"),
-  new SystemMessage("sth went wrong"),
-];
-
-let countWords = function (member) {
-  return messages
-    .filter((m) => m.sender === member)
-    .map((m) => m.textBody)
-    .reduce((wordCount, text) => text.split(" ").length + wordCount, 0);
-};
-
-let chatMembers = [
-  ...new Set(messages.filter((m) => m.type === TYPE_USER).map((m) => m.sender)),
-];
-
-const wordsByMember = chatMembers.reduce(
-  (result, member) => ({ ...result, ...{ [member]: countWords(member) } }),
-  {}
-);
-
-for (const message of messages) {
-  sendMessage(message);
+class Chat {
+  constructor() {
+    this.messages = [
+      new UserMessage("I like pasta", "sender1"),
+      new UserMessage("Cool", "sender2"),
+      new UserMessage("Nice weather or not?", "sender2"),
+      new SystemMessage("sth went wrong"),
+    ];
+  }
+  members() {
+    return [
+      ...new Set(
+        this.messages.filter((m) => m.type === TYPE_USER).map((m) => m.sender)
+      ),
+    ];
+  }
+  countWords(member) {
+    return this.messages
+      .filter((m) => m.sender === member)
+      .map((m) => m.textBody)
+      .reduce((wordCount, text) => text.split(" ").length + wordCount, 0);
+  }
+  get wordsByMember() {
+    return this.members().reduce(
+      (result, member) => ({
+        ...result,
+        ...{ [member]: this.countWords(member) },
+      }),
+      {}
+    );
+  }
+  sendMessage(message) {
+    console.log(message);
+    console.log(message.render());
+    this.messages.push(message);
+  }
 }
 
-console.log("chatMembers: " + chatMembers);
-console.log("wordsByMember: " + JSON.stringify(wordsByMember));
+let chat = new Chat();
+// chat.sendMessage();
+
+let initialMessages = [
+  new UserMessage("Hello", "sender3"),
+  new UserMessage("Very nice", "sender4"),
+  new UserMessage("It's cold outside", "sender3"),
+  new SystemMessage("it works again"),
+];
+
+for (const message of initialMessages) {
+  chat.sendMessage(message);
+}
+
+console.log(chat.members());
+console.log(chat.wordsByMember);
+
+// console.log("chatMembers: " + chatMembers);
+// console.log("wordsByMember: " + JSON.stringify(wordsByMember));
